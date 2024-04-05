@@ -1,0 +1,63 @@
+{
+    "questions": [
+        {
+
+            "text": "Based on the report what type of cancer has the patient got?",
+            "type": "both[done]"
+        },
+
+      {
+        "text": "Is pancreatic adenocarcinoma an aggressive disease?",
+        "type": "both"
+      },
+      {
+        "text": "What is the rate of survival for pancreatic cancer?",
+        "type": "both"
+      },
+      {
+        "text": "What is the typical treatment option for pancreatic cancer?",
+        "type": "both"
+      },
+      {
+        "text": "Is there targeted therapy for pancreatic cancer?",
+        "type": "both"
+      },
+      {
+        "text": "Is there immunotherapy available for pancreatic cancer?",
+        "type": "both"
+      },
+      {
+        "text": "Are there side-effects of immunotherapy for pancreatic cancer patients?",
+        "type": "both"
+      },
+      {
+        "text": "Are mutations in TP53, FBXW7, APC common in colon cancer?",
+        "type": "both"
+      },
+      {
+        "text": "Are CDK6 amplification and EGFR amplification common in colon cancer?",
+        "type": "both"
+      },
+      {
+        "text": "Do TP53, FBXW7, APC mutations make colon cancer aggressive?",
+        "type": "both"
+      },
+      {
+        "text": "What is the typical treatment option for colon cancer?",
+        "type": "both"
+      },
+      {
+        "text": "Is there targeted therapy for CDK6 amplification and EGFR amplification for colon cancer?",
+        "type": "both"
+      },
+      {
+        "text": "What does MSI-H indicate for colon cancer?",
+        "type": "both"
+      },
+      {
+        "text": "Do MSI-H colon cancer cases have poor outcomes?",
+        "type": "both"
+      }
+    ]
+  }
+  
