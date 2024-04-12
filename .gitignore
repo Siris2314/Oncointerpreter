@@ -5,3 +5,5 @@ node_modules/
 /playwright/.cache/
 /tests
 /tests-examples
+package-lock.json
+package.json

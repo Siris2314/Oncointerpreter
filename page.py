@@ -5,7 +5,7 @@ import os
 import textwrap
 import time
 from extract_image import extract_image
-from cancer_test_2 import load_data_llama2, load_tokenizer_and_llm_llama2, process_query_llama2
+from llama2 import load_data_llama2, load_tokenizer_and_llm_llama2, process_query_llama2
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads/'
