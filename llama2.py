@@ -130,15 +130,23 @@ def load_data_llama2():
 
     file_path = './cancer_types/output.json'
 
+    file_path_2 = './cancer_types/cancer_types_links.json'
+
     # Read JSON data from the file
     with open(file_path, 'r') as file:
         json_data = json.load(file)
+
+    with open(file_path_2, 'r') as file:
+        json_data_2  = json.load(file)
 
     # Extract links and append to the existing array
     new_links = [item['link'] for item in json_data]
     articles.extend(new_links)
 
-    
+    # Iterate through the dictionary and extend the existing list with the links
+    for letter, links in json_data_2.items():
+        articles.extend(links)
+
 
 
 

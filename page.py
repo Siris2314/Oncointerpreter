@@ -1,4 +1,4 @@
-from cancer_test import load_tokenizer_and_llm, load_data, process_llm_response, process_query
+from mistral import load_tokenizer_and_llm, load_data, process_llm_response, process_query
 from flask import Flask, request, render_template, redirect, url_for, jsonify, g, session
 from werkzeug.utils import secure_filename
 import os
