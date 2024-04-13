@@ -27,6 +27,10 @@ import asyncio
 
 import os
 
+from dotenv import load_dotenv
+load_dotenv()
+
+
 
 import requests
 
@@ -54,8 +58,8 @@ def load_tokenizer_and_llm_llama2():
         bnb_4bit_use_double_quant=True,
     )
 
-    model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-2-7b-chat-hf", device_map="auto", quantization_config=quantization_config, token = "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")
-    tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-chat-hf", token = "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")
+    model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-2-7b-chat-hf", device_map="auto", quantization_config=quantization_config, token = os.getenv('HF_KEY'))
+    tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-chat-hf", token = os.getenv('HF_KEY'))
 
     llm_pipeline = pipeline(
         "text-generation",
