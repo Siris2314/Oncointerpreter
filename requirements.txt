@@ -16,6 +16,3 @@ Werkzeug==3.0.2
 playwright
 python-dotenv
 gunicorn
-pytesseract
-pdf
-pdf2image
