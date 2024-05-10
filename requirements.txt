@@ -14,4 +14,4 @@ torch
 transformers==4.36.2
 Werkzeug==3.0.2
 playwright
-
+dotenv
