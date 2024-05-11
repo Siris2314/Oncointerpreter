@@ -119,7 +119,7 @@ def process_llm_response(llm_response):
 
 
 def load_data():
-    nest_asyncio.apply()
+    # nest_asyncio.apply()
 
     articles = ["https://www.cancer.gov/resources-for/patients",
                 "https://www.cancer.org/cancer/types.html,",
