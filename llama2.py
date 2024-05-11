@@ -47,35 +47,46 @@ def get_prompt(instruction, sys_prompt):
     template = B_INST + system_prompt +  instruction + E_INST
     return template
 
+from langchain_together import ChatTogether
+
+
 
 
 def load_tokenizer_and_llm_llama2():
 
-    quantization_config = BitsAndBytesConfig(
-        load_in_4bit=True,
-        bnb_4bit_compute_dtype=torch.float16,
-        bnb_4bit_quant_type="nf4",
-        bnb_4bit_use_double_quant=True,
+
+
+    llm = ChatTogether(
+        model = "meta-llama/Llama-2-7b-chat-hf",
+        max_tokens = 2048,
+        together_api_key = os.getenv("env")
     )
 
-    model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-2-7b-chat-hf", device_map="auto", quantization_config=quantization_config, token = os.getenv('HF_KEY'))
-    tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-chat-hf", token = os.getenv('HF_KEY'))
+    # quantization_config = BitsAndBytesConfig(
+    #     load_in_4bit=True,
+    #     bnb_4bit_compute_dtype=torch.float16,
+    #     bnb_4bit_quant_type="nf4",
+    #     bnb_4bit_use_double_quant=True,
+    # )
 
-    llm_pipeline = pipeline(
-        "text-generation",
-        model=model,
-        tokenizer=tokenizer,
-        use_cache=True,
-        device_map = "auto",
-        max_new_tokens = 2048,
-        do_sample=True,
-        top_k=7,
-        num_return_sequences=1,
-        eos_token_id=tokenizer.eos_token_id,
-        pad_token_id=tokenizer.eos_token_id
-    )
+    # model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-2-7b-chat-hf", device_map="auto", quantization_config=quantization_config, token = os.getenv('HF_KEY'))
+    # tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-chat-hf", token = os.getenv('HF_KEY'))
 
-    llm = HuggingFacePipeline(pipeline=llm_pipeline)
+    # llm_pipeline = pipeline(
+    #     "text-generation",
+    #     model=model,
+    #     tokenizer=tokenizer,
+    #     use_cache=True,
+    #     device_map = "auto",
+    #     max_new_tokens = 2048,
+    #     do_sample=True,
+    #     top_k=7,
+    #     num_return_sequences=1,
+    #     eos_token_id=tokenizer.eos_token_id,
+    #     pad_token_id=tokenizer.eos_token_id
+    # )
+
+    # llm = HuggingFacePipeline(pipeline=llm_pipeline)
     return llm
 
 instruction = "Given the context that has been provided. \n {context}, Answer the following question: \n{question}"
@@ -102,10 +113,10 @@ def wrap_text_preserve_newlines(text, width=110):
     return wrapped_text
 
 def process_llm_response(llm_response):
-    response_text = wrap_text_preserve_newlines(llm_response['text'])
-    
+    print(llm_response)
+    response_text = wrap_text_preserve_newlines(llm_response)
     # Extracting sources into a list
-    sources_list = [source.metadata['source'] for source in llm_response['context']]
+    sources_list = [source.metadata['source'] for source in llm_response['source_documents']]
 
     # Returning a dictionary with separate keys for text and sources
     return {"answer": response_text, "sources": sources_list}
@@ -207,4 +218,5 @@ def process_query_llama2(query, llm, db):
         | llm_chain
     )
     ans = rag_chain.invoke(query)
+    print(ans)
     return process_llm_response(ans)

@@ -16,4 +16,4 @@ Werkzeug==3.0.2
 playwright
 python-dotenv
 gunicorn
-bitsandbytes @ https://github.com/jllllll/bitsandbytes-windows-webui.git
+langchain-together

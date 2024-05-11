@@ -80,6 +80,7 @@ def index():
         query = request.form['query']
         # Process the query (and file if uploaded)
         response = process_query(query, llm, db)
+        print(response)
         formatted_paragraphs = format_text_into_paragraphs(response['answer'])
         end_time = datetime.now()
         total_seconds = (end_time - start_time).total_seconds()
@@ -136,4 +137,4 @@ def upload_image():
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0")
+    app.run()

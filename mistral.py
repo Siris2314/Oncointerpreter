@@ -30,6 +30,8 @@ import os
 
 import requests
 
+from langchain_together import ChatTogether
+
 
 def get_webpage_size(url):
     response = requests.get(url)
@@ -47,31 +49,37 @@ def get_prompt(instruction, sys_prompt):
 
 def load_tokenizer_and_llm():
 
-    quantization_config = BitsAndBytesConfig(
-        load_in_4bit=True,
-        bnb_4bit_compute_dtype=torch.float16,
-        bnb_4bit_quant_type="nf4",
-        bnb_4bit_use_double_quant=True,
+    llm = ChatTogether(
+        model = "mistralai/Mistral-7B-Instruct-v0.1",
+        max_tokens = 2048,
+        together_api_key = os.getenv("env")
     )
 
-    model = AutoModelForCausalLM.from_pretrained("mistralai/Mistral-7B-Instruct-v0.1", device_map="auto", quantization_config=quantization_config)
-    tokenizer = AutoTokenizer.from_pretrained("mistralai/Mistral-7B-Instruct-v0.1")
+    # quantization_config = BitsAndBytesConfig(
+    #     load_in_4bit=True,
+    #     bnb_4bit_compute_dtype=torch.float16,
+    #     bnb_4bit_quant_type="nf4",
+    #     bnb_4bit_use_double_quant=True,
+    # )
 
-    llm_pipeline = pipeline(
-        "text-generation",
-        model=model,
-        tokenizer=tokenizer,
-        use_cache=True,
-        device_map = "auto",
-        max_new_tokens = 2048,
-        do_sample=True,
-        top_k=7,
-        num_return_sequences=1,
-        eos_token_id=tokenizer.eos_token_id,
-        pad_token_id=tokenizer.eos_token_id
-    )
+    # model = AutoModelForCausalLM.from_pretrained("mistralai/Mistral-7B-Instruct-v0.1", device_map="auto", quantization_config=quantization_config)
+    # tokenizer = AutoTokenizer.from_pretrained("mistralai/Mistral-7B-Instruct-v0.1")
 
-    llm = HuggingFacePipeline(pipeline=llm_pipeline)
+    # llm_pipeline = pipeline(
+    #     "text-generation",
+    #     model=model,
+    #     tokenizer=tokenizer,
+    #     use_cache=True,
+    #     device_map = "auto",
+    #     max_new_tokens = 2048,
+    #     do_sample=True,
+    #     top_k=7,
+    #     num_return_sequences=1,
+    #     eos_token_id=tokenizer.eos_token_id,
+    #     pad_token_id=tokenizer.eos_token_id
+    # )
+
+    # llm = HuggingFacePipeline(pipeline=llm_pipeline)
     return llm
 
 instruction = "Given the context that has been provided. \n {context}, Answer the following question: \n{question}"
@@ -105,6 +113,7 @@ def process_llm_response(llm_response):
 
     # Returning a dictionary with separate keys for text and sources
     return {"answer": response_text, "sources": sources_list}
+
 
 
 
