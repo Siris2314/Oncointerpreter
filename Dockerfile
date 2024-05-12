@@ -44,6 +44,4 @@ EXPOSE 5000
 # Define environment variable
 ENV FLASK_APP=page.py
 
-# Run flask when the container launches
-CMD ["gunicorn", "-b", "0.0.0.0:5000", "page:app"]
 
