@@ -19,3 +19,4 @@ langchain-together
 beautifulsoup4
 playwright
 html2text
+sentence-transformers
