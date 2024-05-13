@@ -27,6 +27,7 @@ import asyncio
 
 import os
 
+import torch
 
 import requests
 
@@ -175,7 +176,7 @@ def load_data():
 
         db = FAISS.from_documents(chunked_documents, 
                                 HuggingFaceBgeEmbeddings(model_name="BAAI/bge-large-en-v1.5",
-                                                model_kwargs={'device': 'cuda'}, encode_kwargs={'normalize_embeddings': True}))
+                                                model_kwargs={'device': torch.device('cuda' if torch.cuda.is_available() else 'cpu')}, encode_kwargs={'normalize_embeddings': True}))
         
         loader =  TextLoader('report.txt')
         documents = loader.load()
@@ -192,7 +193,7 @@ def load_data():
         # Load chunked documents into the FAISS index
         db = FAISS.from_documents(chunked_documents, 
                                 HuggingFaceBgeEmbeddings(model_name="BAAI/bge-large-en-v1.5",
-                                                model_kwargs={'device': 'cuda'}, encode_kwargs={'normalize_embeddings': True}))
+                                                model_kwargs={'device': torch.device('cuda' if torch.cuda.is_available() else 'cpu')}, encode_kwargs={'normalize_embeddings': True}))
 
 
     return db
