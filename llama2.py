@@ -1,4 +1,4 @@
-from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
+# from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 import torch
 device = "cuda"
 from langchain_community.llms.huggingface_pipeline import HuggingFacePipeline
@@ -21,7 +21,7 @@ import textwrap
 
 from playwright.async_api import async_playwright
 
-from transformers import pipeline
+# from transformers import pipeline
 
 import asyncio
 
