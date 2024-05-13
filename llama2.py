@@ -116,9 +116,9 @@ def wrap_text_preserve_newlines(text, width=110):
 
 def process_llm_response(llm_response):
     print(llm_response)
-    response_text = wrap_text_preserve_newlines(llm_response['answer'])
+    response_text = wrap_text_preserve_newlines(llm_response)
     # Extracting sources into a list
-    sources_list = [source.metadata['source'] for source in llm_response['sources']]
+    sources_list = [source.metadata['source'] for source in llm_response['source_documents']]
 
     # Returning a dictionary with separate keys for text and sources
     return {"answer": response_text, "sources": sources_list}
@@ -149,20 +149,20 @@ def load_data_llama2():
 
     file_path_2 = './cancer_types/cancer_types_links.json'
 
-    # Read JSON data from the file
-    with open(file_path, 'r') as file:
-        json_data = json.load(file)
+    # # Read JSON data from the file
+    # with open(file_path, 'r') as file:
+    #     json_data = json.load(file)
 
-    with open(file_path_2, 'r') as file:
-        json_data_2  = json.load(file)
+    # with open(file_path_2, 'r') as file:
+    #     json_data_2  = json.load(file)
 
-    # Extract links and append to the existing array
-    new_links = [item['link'] for item in json_data]
-    articles.extend(new_links)
+    # # Extract links and append to the existing array
+    # new_links = [item['link'] for item in json_data]
+    # articles.extend(new_links)
 
-    # Iterate through the dictionary and extend the existing list with the links
-    for letter, links in json_data_2.items():
-        articles.extend(links)
+    # # Iterate through the dictionary and extend the existing list with the links
+    # for letter, links in json_data_2.items():
+    #     articles.extend(links)
 
 
 
@@ -178,8 +178,8 @@ def load_data_llama2():
     html2text = Html2TextTransformer()
     docs_transformed = html2text.transform_documents(docs)
     if os.path.isfile('report.txt'):
-        text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, 
-                                        chunk_overlap=200)
+        text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, 
+                                        chunk_overlap=20)
         chunked_documents = text_splitter.split_documents(docs_transformed)
 
         db = FAISS.from_documents(chunked_documents, 
@@ -188,14 +188,14 @@ def load_data_llama2():
         
         loader =  TextLoader('report.txt')
         documents = loader.load()
-        text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000,
-                                                    chunk_overlap=200)
+        text_splitter = RecursiveCharacterTextSplitter(chunk_size=500,
+                                                    chunk_overlap=20)
         texts = text_splitter.split_documents(documents)
         db.add_documents(texts)
     else:
     # Chunk text
-        text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, 
-                                            chunk_overlap=200)
+        text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, 
+                                            chunk_overlap=20)
         chunked_documents = text_splitter.split_documents(docs_transformed)
 
         # Load chunked documents into the FAISS index
