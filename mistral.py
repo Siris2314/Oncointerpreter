@@ -170,7 +170,7 @@ def load_data():
     html2text = Html2TextTransformer()
     docs_transformed = html2text.transform_documents(docs)
     if os.path.isfile('report.txt'):
-        text_splitter = RecursiveCharacterTextSplitter(chunk_size=5000, 
+        text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, 
                                         chunk_overlap=200)
         chunked_documents = text_splitter.split_documents(docs_transformed)
 
@@ -180,13 +180,13 @@ def load_data():
         
         loader =  TextLoader('report.txt')
         documents = loader.load()
-        text_splitter = RecursiveCharacterTextSplitter(chunk_size=5000,
+        text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000,
                                                     chunk_overlap=200)
         texts = text_splitter.split_documents(documents)
         db.add_documents(texts)
     else:
     # Chunk text
-        text_splitter = RecursiveCharacterTextSplitter(chunk_size=5000, 
+        text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, 
                                             chunk_overlap=200)
         chunked_documents = text_splitter.split_documents(docs_transformed)
 

@@ -1,4 +1,4 @@
-# from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
+from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 import torch
 device = "cuda"
 from langchain_community.llms.huggingface_pipeline import HuggingFacePipeline
@@ -21,7 +21,7 @@ import textwrap
 
 from playwright.async_api import async_playwright
 
-# from transformers import pipeline
+from transformers import pipeline
 
 import asyncio
 
@@ -50,7 +50,7 @@ def get_prompt(instruction, sys_prompt):
 from langchain_together import ChatTogether
 
 
-
+print(torch.cuda.is_available())
 
 def load_tokenizer_and_llm_llama2():
 
@@ -102,6 +102,8 @@ prompt_sys = get_prompt(instruction, sys_prompt)
 
 template = PromptTemplate(template=prompt_sys, input_variables=['context', 'question'])
 
+from langchain_together.embeddings import TogetherEmbeddings
+
 
 def wrap_text_preserve_newlines(text, width=110):
     lines = text.split('\n')
@@ -114,9 +116,9 @@ def wrap_text_preserve_newlines(text, width=110):
 
 def process_llm_response(llm_response):
     print(llm_response)
-    response_text = wrap_text_preserve_newlines(llm_response)
+    response_text = wrap_text_preserve_newlines(llm_response['answer'])
     # Extracting sources into a list
-    sources_list = [source.metadata['source'] for source in llm_response['source_documents']]
+    sources_list = [source.metadata['source'] for source in llm_response['sources']]
 
     # Returning a dictionary with separate keys for text and sources
     return {"answer": response_text, "sources": sources_list}
@@ -176,7 +178,7 @@ def load_data_llama2():
     html2text = Html2TextTransformer()
     docs_transformed = html2text.transform_documents(docs)
     if os.path.isfile('report.txt'):
-        text_splitter = RecursiveCharacterTextSplitter(chunk_size=2000, 
+        text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, 
                                         chunk_overlap=200)
         chunked_documents = text_splitter.split_documents(docs_transformed)
 
@@ -186,13 +188,13 @@ def load_data_llama2():
         
         loader =  TextLoader('report.txt')
         documents = loader.load()
-        text_splitter = RecursiveCharacterTextSplitter(chunk_size=2000,
+        text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000,
                                                     chunk_overlap=200)
         texts = text_splitter.split_documents(documents)
         db.add_documents(texts)
     else:
     # Chunk text
-        text_splitter = RecursiveCharacterTextSplitter(chunk_size=2000, 
+        text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, 
                                             chunk_overlap=200)
         chunked_documents = text_splitter.split_documents(docs_transformed)
 
