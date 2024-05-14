@@ -26,6 +26,7 @@ RUN apt-get update && apt-get install -y \
     libgbm1 \
     tesseract-ocr \
     tesseract-ocr-eng \
+    poppler-utils \
     --no-install-recommends \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
