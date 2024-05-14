@@ -145,13 +145,13 @@ def load_data_llama2():
         articles.append(url)
         articles.append(new_url)
 
-    file_path = './cancer_types/output.json'
+    # file_path = './cancer_types/output.json'
 
-    file_path_2 = './cancer_types/cancer_types_links.json'
+    # file_path_2 = './cancer_types/cancer_types_links.json'
 
     # Read JSON data from the file
-    with open(file_path, 'r') as file:
-        json_data = json.load(file)
+    # with open(file_path, 'r') as file:
+    #     json_data = json.load(file)
 
     # with open(file_path_2, 'r') as file:
     #     json_data_2  = json.load(file)
