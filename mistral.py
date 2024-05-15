@@ -51,7 +51,7 @@ def get_prompt(instruction, sys_prompt):
 def load_tokenizer_and_llm():
 
     llm = ChatTogether(
-        model = "mistralai/Mistral-7B-Instruct-v0.1",
+        model = "teknium/OpenHermes-2-Mistral-7B",
         max_tokens = 2048,
         together_api_key = os.getenv("env")
     )
@@ -138,21 +138,21 @@ def load_data():
         articles.append(url)
         articles.append(new_url)
 
-    # file_path = './cancer_types/output.json'
+    file_path = './cancer_types/output.json'
 
     # file_path_2 = './cancer_types/cancer_types_links.json'
 
     # # Read JSON data from the file
-    # with open(file_path, 'r') as file:
-    #     json_data = json.load(file)
+    with open(file_path, 'r') as file:
+        json_data = json.load(file)
 
 
     # with open(file_path_2, 'r') as file:
     #     json_data_2  = json.load(file)
 
     # # Extract links and append to the existing array
-    # new_links = [item['link'] for item in json_data]
-    # articles.extend(new_links)
+    new_links = [item['link'] for item in json_data]
+    articles.extend(new_links)
 
     # # Iterate through the dictionary and extend the existing list with the links
     # for letter, links in json_data_2.items():
