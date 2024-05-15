@@ -138,25 +138,25 @@ def load_data():
         articles.append(url)
         articles.append(new_url)
 
-    file_path = './cancer_types/output.json'
+    # file_path = './cancer_types/output.json'
 
-    file_path_2 = './cancer_types/cancer_types_links.json'
+    # file_path_2 = './cancer_types/cancer_types_links.json'
 
-    # Read JSON data from the file
-    with open(file_path, 'r') as file:
-        json_data = json.load(file)
+    # # Read JSON data from the file
+    # with open(file_path, 'r') as file:
+    #     json_data = json.load(file)
 
 
-    with open(file_path_2, 'r') as file:
-        json_data_2  = json.load(file)
+    # with open(file_path_2, 'r') as file:
+    #     json_data_2  = json.load(file)
 
-    # Extract links and append to the existing array
-    new_links = [item['link'] for item in json_data]
-    articles.extend(new_links)
+    # # Extract links and append to the existing array
+    # new_links = [item['link'] for item in json_data]
+    # articles.extend(new_links)
 
-    # Iterate through the dictionary and extend the existing list with the links
-    for letter, links in json_data_2.items():
-        articles.extend(links)
+    # # Iterate through the dictionary and extend the existing list with the links
+    # for letter, links in json_data_2.items():
+    #     articles.extend(links)
 
 
     # Scrapes the blogs above
@@ -170,8 +170,8 @@ def load_data():
     html2text = Html2TextTransformer()
     docs_transformed = html2text.transform_documents(docs)
     if os.path.isfile('report.txt'):
-        text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, 
-                                        chunk_overlap=200)
+        text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, 
+                                        chunk_overlap=20)
         chunked_documents = text_splitter.split_documents(docs_transformed)
 
         db = FAISS.from_documents(chunked_documents, 
@@ -180,14 +180,14 @@ def load_data():
         
         loader =  TextLoader('report.txt')
         documents = loader.load()
-        text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000,
-                                                    chunk_overlap=200)
+        text_splitter = RecursiveCharacterTextSplitter(chunk_size=500,
+                                                    chunk_overlap=20)
         texts = text_splitter.split_documents(documents)
         db.add_documents(texts)
     else:
     # Chunk text
-        text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, 
-                                            chunk_overlap=200)
+        text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, 
+                                            chunk_overlap=20)
         chunked_documents = text_splitter.split_documents(docs_transformed)
 
         # Load chunked documents into the FAISS index

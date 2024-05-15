@@ -34,6 +34,12 @@ load_dotenv()
 
 import requests
 
+import warnings
+
+# Suppress all warnings
+warnings.filterwarnings("ignore")
+
+
 
 def get_webpage_size(url):
     response = requests.get(url)
