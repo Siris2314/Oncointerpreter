@@ -86,7 +86,7 @@ def load_tokenizer_and_llm():
 instruction = "Given the context that has been provided. \n {context}, Answer the following question: \n{question}"
 
 sys_prompt = """You are a medical diagnosis expert.
-You will be given medical context to answer from. Answer the questions with as much detail as possible.
+You will be given medical context to answer from. Answer the questions with as much detail as possible. Only answer medical questions, nothing else
 In case you do not know the answer, you can say "I don't know" or "I don't understand".
 In all other cases provide an answer to the best of your ability. If someone asks about treatment options, link https://clinicaltrials.gov/ at the end"""
 
