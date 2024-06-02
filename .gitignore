@@ -7,4 +7,3 @@ node_modules/
 /tests-examples
 /uploads
 .env
-package.json
