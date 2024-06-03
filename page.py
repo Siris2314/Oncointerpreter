@@ -80,7 +80,6 @@ def index():
         query = request.form['query']
         # Process the query (and file if uploaded)
         response = process_query(query, llm, db)
-        print(response)
         formatted_paragraphs = format_text_into_paragraphs(response['answer'])
         end_time = datetime.now()
         total_seconds = (end_time - start_time).total_seconds()

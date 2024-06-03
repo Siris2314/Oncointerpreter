@@ -121,7 +121,6 @@ def wrap_text_preserve_newlines(text, width=110):
     return wrapped_text
 
 def process_llm_response(llm_response):
-    print(llm_response)
     response_text = wrap_text_preserve_newlines(llm_response)
     # Extracting sources into a list
     sources_list = [source.metadata['source'] for source in llm_response['source_documents']]
@@ -163,8 +162,8 @@ def load_data_llama2():
     #     json_data_2  = json.load(file)
 
     # # Extract links and append to the existing array
-    new_links = [item['link'] for item in json_data]
-    articles.extend(new_links)
+    # new_links = [item['link'] for item in json_data]
+    # articles.extend(new_links)
 
     # # Iterate through the dictionary and extend the existing list with the links
     # for letter, links in json_data_2.items():
