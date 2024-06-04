@@ -20,6 +20,10 @@
         .result-text {
             text-align: left;
             margin-top: 20px;
+            line-height: 1.6;
+        }
+        .result-text p {
+            margin-bottom: 5px; /* Reduced space between paragraphs */
         }
         /* Style for source links */
         .source-link {
@@ -64,9 +68,11 @@
 <body>
     <div class="container">
         <h2>Query Results</h2>
-        {% for paragraph in paragraphs %}
-            <p>{{ paragraph }}</p>
-        {% endfor %}
+        <div class="result-text">
+            {% for paragraph in paragraphs %}
+                <p>{{ paragraph }}</p>
+            {% endfor %}
+        </div>
 
         <!-- Display sources as a list -->
         <h3>Sources:</h3>

@@ -11,6 +11,8 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads/'
 app.secret_key = os.urandom(24)
 
+os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
+
 
 from pdf_extract import convert_pdf_to_text
 
@@ -29,20 +31,43 @@ def allowed_file(filename):
 
 import textwrap
 
-def format_text_into_paragraphs(text, max_line_length=100, sentences_per_paragraph=3):
-    # Split the text into sentences
-    sentences = text.split('. ')
+def format_text_into_paragraphs(text):
+    # Handle special marker for concluding statement
+    parts = text.split("It's important to note")
+    main_text = parts[0]
+    concluding_text = "It's important to note" + parts[1] if len(parts) > 1 else ""
 
-    # Group sentences into paragraphs
-    paragraphs = []
-    for i in range(0, len(sentences), sentences_per_paragraph):
-        paragraph = '. '.join(sentences[i:i+sentences_per_paragraph])
-        paragraphs.append(paragraph)
-
-    # Wrap text to a maximum line length
-    wrapped_paragraphs = [textwrap.fill(p, max_line_length) for p in paragraphs]
+    # Split the main text by newline characters
+    lines = main_text.split('\n')
     
-    return wrapped_paragraphs
+    # Group lines into paragraphs and handle numbered lists
+    paragraphs = []
+    paragraph = ''
+    for line in lines:
+        # Check if the line starts with a number followed by a period and space (e.g., "1. ", "10. ")
+        if line.strip() and line.strip().split()[0].rstrip('.').isdigit():
+            # If paragraph already has content, add it to paragraphs
+            if paragraph:
+                paragraphs.append(paragraph.strip())
+                paragraph = ''
+            # Add the numbered line as a new paragraph
+            paragraph = line
+            paragraphs.append(paragraph.strip())
+            paragraph = ''
+        else:
+            # If not a numbered point, continue adding to the current paragraph
+            paragraph += ' ' + line.strip()
+
+    # Add any remaining paragraph to the list
+    if paragraph:
+        paragraphs.append(paragraph.strip())
+
+    # Add concluding text as a separate paragraph
+    if concluding_text:
+        paragraphs.append(concluding_text.strip())
+
+    return paragraphs
+
 
 def clean_extracted_text(text):
     # Split the text into lines
@@ -81,6 +106,7 @@ def index():
         # Process the query (and file if uploaded)
         response = process_query(query, llm, db)
         formatted_paragraphs = format_text_into_paragraphs(response['answer'])
+        print(formatted_paragraphs)
         end_time = datetime.now()
         total_seconds = (end_time - start_time).total_seconds()
         file_name = session.pop('file_name', None)
