@@ -65,7 +65,7 @@ def load_tokenizer_and_llm_llama2():
     llm = ChatTogether(
         model = "togethercomputer/llama-2-7b-chat",
         max_tokens = 2048,
-        temperature=0.9,
+        temperature=0.7,
         together_api_key = os.getenv("env")
     )
 
@@ -184,8 +184,8 @@ def load_data_llama2():
     html2text = Html2TextTransformer()
     docs_transformed = html2text.transform_documents(docs)
     if os.path.isfile('report.txt'):
-        text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, 
-                                        chunk_overlap=20)
+        text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, 
+                                        chunk_overlap=200)
         chunked_documents = text_splitter.split_documents(docs_transformed)
 
         db = FAISS.from_documents(chunked_documents, 
@@ -194,14 +194,14 @@ def load_data_llama2():
         
         loader =  TextLoader('report.txt')
         documents = loader.load()
-        text_splitter = RecursiveCharacterTextSplitter(chunk_size=500,
-                                                    chunk_overlap=20)
+        text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000,
+                                                    chunk_overlap=200)
         texts = text_splitter.split_documents(documents)
         db.add_documents(texts)
     else:
     # Chunk text
-        text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, 
-                                            chunk_overlap=20)
+        text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, 
+                                            chunk_overlap=200)
         chunked_documents = text_splitter.split_documents(docs_transformed)
 
         # Load chunked documents into the FAISS index
