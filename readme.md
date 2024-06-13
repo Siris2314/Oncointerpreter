@@ -37,3 +37,8 @@ pip install -r requirements.txt
 ### Overview of Architecture
 
 ![Architecture](figure.png "System Architecture")
+
+
+### Non-Commercial Research Only License
+
+©2023-2024 Rutgers, The State University of New Jersey, All rights reserved. Do not copy or reproduce without permission.

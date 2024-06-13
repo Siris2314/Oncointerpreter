@@ -53,6 +53,7 @@ def load_tokenizer_and_llm():
     llm = ChatTogether(
         model = "teknium/OpenHermes-2-Mistral-7B",
         max_tokens = 2048,
+        temperature=0.1,
         together_api_key = os.getenv("env")
     )
 
@@ -211,5 +212,4 @@ def process_query(query, llm, db):
     )
     ans = rag_chain.invoke(query)
     return process_llm_response(ans)
-
 
